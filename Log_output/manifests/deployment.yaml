@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stringgenerator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stringgenerator
+  template:
+    metadata:
+      labels:
+        app: stringgenerator
+    spec:
+      containers:
+      - name: stringgenerator
+        image: vilhopul/mooc-kube-vm:1.1
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
