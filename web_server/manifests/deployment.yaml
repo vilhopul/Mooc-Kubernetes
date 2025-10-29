@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-web-server-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-web-server
+  template:
+    metadata:
+      labels:
+        app: kube-web-server
+    spec:
+      containers:
+      - name: kube-web-server
+        image: vilhopul/mooc-kube-vm:1.2
+        imagePullPolicy: Always
