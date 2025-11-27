@@ -14,7 +14,9 @@ spec:
     spec:
       containers:
       - name: stringgenerator
-        image: vilhopul/mooc-kube-vm:1.1
+        image: vilhopul/mooc-kube-vm:1.7
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
+        - name: PORT
+          value: "8090"
