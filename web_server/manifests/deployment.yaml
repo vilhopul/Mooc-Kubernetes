@@ -14,5 +14,8 @@ spec:
     spec:
       containers:
       - name: kube-web-server
-        image: vilhopul/mooc-kube-vm:1.2
+        image: vilhopul/mooc-kube-vm:1.5
         imagePullPolicy: Always
+        env:
+        - name: PORT
+          value: "8080"
