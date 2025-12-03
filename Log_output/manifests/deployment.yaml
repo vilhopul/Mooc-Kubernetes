@@ -12,9 +12,25 @@ spec:
       labels:
         app: stringgenerator
     spec:
+      volumes:
+      - name: log-volume
+        emptyDir: {}
       containers:
-      - name: stringgenerator
-        image: vilhopul/mooc-kube-vm:1.7
+      - name: generator
+        image: vilhopul/mooc-kube-vm:1.10.generator
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: log-volume
+          mountPath: /usr/src/app/files
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+      - name: reader
+        image: vilhopul/mooc-kube-vm:1.10.reader
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: log-volume
+          mountPath: /usr/src/app/files
         env:
         - name: PYTHONUNBUFFERED
           value: "1"

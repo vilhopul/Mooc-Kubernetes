@@ -1,6 +1,6 @@
 FROM python:trixie
 
-WORKDIR /Log_output
+WORKDIR /generator
 
 COPY . .
 
