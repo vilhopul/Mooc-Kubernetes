@@ -12,3 +12,4 @@
 - [1.6.](https://github.com/vilhopul/Mooc-Kubernetes/tree/1.6/web_server/manifests)
 - [1.7.](https://github.com/vilhopul/Mooc-Kubernetes/tree/1.7/Log_output/manifests)
 - [1.8.](https://github.com/vilhopul/Mooc-Kubernetes/tree/1.8/web_server/manifests)
+- [1.9.](https://github.com/vilhopul/Mooc-Kubernetes/tree/1.9/pingpong)
