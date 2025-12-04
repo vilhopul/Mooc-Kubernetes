@@ -12,10 +12,17 @@ spec:
       labels:
         app: pingpong
     spec:
+      volumes: 
+      - name: pingpong-volume
+        persistentVolumeClaim:
+          claimName: log-output-claim
       containers:
       - name: pingpong
-        image: vilhopul/mooc-kube-vm:1.9
+        image: vilhopul/mooc-kube-vm:1.11.pingpong
         imagePullPolicy: Always
+        volumeMounts:
+        - name: pingpong-volume
+          mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "8070"

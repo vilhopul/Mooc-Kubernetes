@@ -14,7 +14,8 @@ spec:
     spec:
       volumes:
       - name: log-volume
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: log-output-claim
       containers:
       - name: generator
         image: vilhopul/mooc-kube-vm:1.10.generator
@@ -26,7 +27,7 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
       - name: reader
-        image: vilhopul/mooc-kube-vm:1.10.reader
+        image: vilhopul/mooc-kube-vm:1.11.reader
         imagePullPolicy: Always
         volumeMounts:
         - name: log-volume
