@@ -12,10 +12,17 @@ spec:
       labels:
         app: kube-web-server
     spec:
+      volumes:
+      - name: project-volume
+        persistentVolumeClaim:
+          claimName: project-claim
       containers:
       - name: kube-web-server
-        image: vilhopul/mooc-kube-vm:1.5
+        image: vilhopul/mooc-kube-vm:1.12
         imagePullPolicy: Always
+        volumeMounts:
+        - name: project-volume
+          mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "8080"
