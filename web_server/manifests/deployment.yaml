@@ -18,7 +18,7 @@ spec:
           claimName: project-claim
       containers:
       - name: kube-web-server
-        image: vilhopul/mooc-kube-vm:1.12
+        image: vilhopul/mooc-kube-vm:1.13
         imagePullPolicy: Always
         volumeMounts:
         - name: project-volume
