@@ -27,7 +27,7 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
       - name: reader
-        image: vilhopul/mooc-kube-vm:1.11.reader
+        image: vilhopul/mooc-kube-vm:2.1
         imagePullPolicy: Always
         volumeMounts:
         - name: log-volume

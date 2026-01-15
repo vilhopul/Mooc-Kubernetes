@@ -1,4 +1,5 @@
 import os
+import requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(os.environ.get('PORT'))
@@ -14,10 +15,11 @@ class RequestHandler(BaseHTTPRequestHandler):
             
             pingpong_message = ""
             try:
-                with open("/usr/src/app/files/pingpong.txt", "r") as f:
-                    pingpong_message = f.read()
-            except FileNotFoundError:
-                pass
+                response = requests.get('http://pingpong-svc:3456/pings')
+                pingpong_message = response.text
+            except Exception as e:
+                print(e)
+                pingpong_message = "0"
 
             self.wfile.write(f"{log_message}\nPing /pingpong: {pingpong_message}".encode('utf-8'))
         else:
