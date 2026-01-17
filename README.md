@@ -20,5 +20,4 @@
 
 ### Chapter 3
 
-- [2.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/1.14/Log_output/reader)
-- [2.2.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.2/todo-backend)
+- [2.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.1/Log_output/reader)
