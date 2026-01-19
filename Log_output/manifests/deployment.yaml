@@ -17,6 +17,9 @@ spec:
       - name: log-volume
         persistentVolumeClaim:
           claimName: log-output-claim
+      - name: config-volume
+        configMap:
+          name: log-config
       containers:
       - name: generator
         image: vilhopul/mooc-kube-vm:1.10.generator
@@ -28,13 +31,21 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
       - name: reader
-        image: vilhopul/mooc-kube-vm:2.1
+        image: vilhopul/mooc-kube-vm:2.5.reader
         imagePullPolicy: Always
         volumeMounts:
         - name: log-volume
           mountPath: /usr/src/app/files
+        - name: config-volume
+          mountPath: /config
+          readOnly: true
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: PORT
           value: "8090"
+        - name: MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: log-config
+              key: MESSAGE

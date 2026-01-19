@@ -3,6 +3,7 @@ import requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(os.environ.get('PORT'))
+env_message = os.environ.get('MESSAGE')
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -10,6 +11,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
+            
+            try:
+                with open("/config/information.txt", "r") as f:
+                    file_content = f.read().strip()
+            except FileNotFoundError:
+                file_content = "File not found"
+            
+
             with open("/usr/src/app/files/log.txt", "r") as f:
                 log_message = f.read()
             
@@ -21,7 +30,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 print(e)
                 pingpong_message = "0"
 
-            self.wfile.write(f"{log_message}\nPing /pingpong: {pingpong_message}".encode('utf-8'))
+            self.wfile.write(f"file content: {file_content}\nenv variable: MESSAGE={env_message}\n{log_message}\nPing / pingpong: {pingpong_message}".encode('utf-8'))
         else:
             self.send_response(404)
             self.end_headers()
