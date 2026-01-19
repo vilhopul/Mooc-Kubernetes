@@ -23,3 +23,4 @@
 - [2.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.1/Log_output/reader)
 - [2.2.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.2/todo-backend)
 - [2.3.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.3/namespaces)
+- [2.4.](https://github.com/vilhopul/Mooc-Kubernetes/tree/2.4/namespaces)
