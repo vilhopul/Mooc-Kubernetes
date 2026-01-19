@@ -19,7 +19,7 @@ spec:
           claimName: project-claim
       containers:
       - name: kube-web-server
-        image: vilhopul/mooc-kube-vm:2.2.webserver
+        image: vilhopul/mooc-kube-vm:2.6.webserver
         imagePullPolicy: Always
         volumeMounts:
         - name: project-volume
@@ -27,3 +27,5 @@ spec:
         env:
         - name: PORT
           value: "8080"
+        - name: backend_port
+          value: "9876"

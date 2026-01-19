@@ -5,6 +5,7 @@ import axios from 'axios'
 
 const app = express()
 const PORT = process.env.PORT
+const BACKEND_PORT = process.env.backend_port
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
 const imagePath = path.join(directory, 'image.jpg')
 const todoPath = path.join(directory, 'todos.txt')
@@ -41,7 +42,7 @@ app.get('/', async (req, res) => {
 
   let todos = []
   try {
-    const response = await axios.get('http://todo-backend-svc:9876/todos')
+    const response = await axios.get(`http://todo-backend-svc:${BACKEND_PORT}/todos`)
     todos = response.data
   } catch (error) {
     console.error('error fetching todos:', error.message)
@@ -74,7 +75,7 @@ app.post('/todos', async (req, res) => {
     todo: req.body.todo
   }
   try {
-    await axios.post('http://todo-backend-svc:9876/todos', newTodo)
+    await axios.post(`http://todo-backend-svc:${BACKEND_PORT}/todos`, newTodo)
   } catch (error) {
     console.error('error creating todo:', error.message)
   }
