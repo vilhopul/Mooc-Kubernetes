@@ -15,8 +15,33 @@ spec:
     spec:
       containers:
       - name: pingpong
-        image: vilhopul/mooc-kube-vm:2.1.pingpong
+        image: vilhopul/mooc-kube-vm:2.7.pingpong
         imagePullPolicy: Always
         env:
         - name: PORT
           value: "8070"
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: PGHOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: PGPORT
