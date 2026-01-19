@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-stset-project
+  namespace: project
+spec:
+  serviceName: postgres-svc-project
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresapp-project
+  template:
+    metadata:
+      labels:
+        app: postgresapp-project
+    spec:
+      containers:
+      - name: postgres-db-project
+        image: postgres:latest
+        ports:
+          - name: web
+            containerPort: 5432
+        volumeMounts:
+        - name: postgres-data-project
+          mountPath: /data
+        envFrom:
+        - configMapRef:
+            name: postgres-config-project
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data-project
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 100Mi
+  
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: postgres-svc-project
+  namespace: project
+  labels:
+    app: postgresapp-project  
+spec:
+  ports:
+    - port: 5432
+      name: web
+  clusterIP: None
+  selector:
+    app: postgresapp-project
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config-project
+  namespace: project
+  labels:
+    app: postgresapp-project
+data:
+  POSTGRES_PASSWORD: devpass123
+  POSTGRES_USER: devuser
+  POSTGRES_DB: logdatabase
+  PGHOST: postgres-svc-project
+  PGPORT: "5432"

@@ -15,10 +15,35 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: vilhopul/mooc-kube-vm:2.2.todobackend
+          image: vilhopul/mooc-kube-vm:2.8.todobackend
           imagePullPolicy: Always
           ports:
             - containerPort: 9000
           env:
             - name: PORT
               value: "9000"
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_DB
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: PGHOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: PGPORT
