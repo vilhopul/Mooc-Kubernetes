@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: vilhopul/mooc-kube-vm:2.8.todobackend
+          image: vilhopul/mooc-kube-vm:2.10.todobackend
           imagePullPolicy: Always
           ports:
             - containerPort: 9000

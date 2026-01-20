@@ -45,6 +45,7 @@ app.post('/todos', async (req, res) => {
   console.log('adding todo:', todo)
   
   if (!todo.todo || todo.todo.length > 140) {
+     console.log('oh no, todo is too long!:', todo)
      return res.status(400).send('todo error')
   }
 
