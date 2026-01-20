@@ -16,13 +16,14 @@ spec:
     spec:
       containers:
       - name: postgres-db
-        image: postgres:latest
+        image: postgres:16
         ports:
           - name: web
             containerPort: 5432
         volumeMounts:
         - name: postgres-data
-          mountPath: /data
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
         envFrom:
         - configMapRef:
             name: postgres-config
@@ -31,7 +32,7 @@ spec:
       name: postgres-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-path
+      storageClassName: standard
       resources:
         requests:
           storage: 100Mi
@@ -63,5 +64,5 @@ data:
   POSTGRES_PASSWORD: devpass123
   POSTGRES_USER: devuser
   POSTGRES_DB: logdatabase
-  PGHOST: postgres-svc
+  PGHOST: postgres-svc.exercises.svc.cluster.local
   PGPORT: "5432"
