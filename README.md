@@ -37,3 +37,4 @@
 - [3.2.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.2/Log_output/manifests)
 - [3.3.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.3/Log_output/manifests)
 - [3.4.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.4/Log_output/manifests)
+- [3.5.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.5/kustomize/project)

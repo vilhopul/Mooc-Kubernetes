@@ -4,7 +4,7 @@ metadata:
   name: project-claim
   namespace: project
 spec:
-  storageClassName: project-storage
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
