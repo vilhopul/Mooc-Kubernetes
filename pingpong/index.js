@@ -28,7 +28,7 @@ async function initDb() {
 
 initDb()
 
-app.get('/pingpong', async (req, res) => {
+app.get('/', async (req, res) => {
   const client = await pool.connect()
   try {
     await client.query('UPDATE pings SET counter = counter + 1 WHERE id = 1')
@@ -54,10 +54,6 @@ app.get('/pings', async (req, res) => {
   } finally {
     client.release()
   }
-})
-
-app.get('/', (req, res) => {
-  res.send('Pingpong service is running fine')
 })
 
 app.listen(port, () => {
