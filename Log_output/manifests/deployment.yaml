@@ -33,6 +33,8 @@ spec:
       - name: reader
         image: vilhopul/mooc-kube-vm:2.5.reader
         imagePullPolicy: Always
+        ports:
+        - containerPort: 8090
         volumeMounts:
         - name: log-volume
           mountPath: /usr/src/app/files

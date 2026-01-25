@@ -34,3 +34,4 @@
 ### Chapter 4
 
 - [3.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.1/pingpong/manifests)
+- [3.2.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.1/Log_output/manifests)

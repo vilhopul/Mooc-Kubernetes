@@ -56,6 +56,10 @@ app.get('/pings', async (req, res) => {
   }
 })
 
+app.get('/', (req, res) => {
+  res.send('Pingpong service is running fine')
+})
+
 app.listen(port, () => {
   console.log(`Pingpong app listening on port ${port}`)
 })
