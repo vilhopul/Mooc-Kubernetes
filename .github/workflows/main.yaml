@@ -64,6 +64,6 @@ jobs:
           kustomize edit set image kube-web-server-dep=${{ env.WEB_SERVER_IMAGE }}
           kustomize edit set image todo-backend-dep=${{ env.TODO_BACKEND_IMAGE }}
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/kube-web-server-dep -n project
-          kubectl rollout status deployment/todo-backend-dep -n project
+          kubectl rollout status deployment/kube-web-server-dep -n project --timeout=300s
+          kubectl rollout status deployment/todo-backend-dep -n project --timeout=300s
           kubectl get services -n project -o wide
