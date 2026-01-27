@@ -1,0 +1,68 @@
+name: Release application
+
+on:
+  push:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  REGISTRY: europe-north1-docker.pkg.dev
+  REPOSITORY: my-repository
+  BRANCH: ${{ github.ref_name }}
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.REGISTRY }}
+      
+      - name: 'Get GKE credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+      
+      - name: 'Build and push web_server image'
+        run: |
+          WEB_SERVER_IMAGE=${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/web-server:${{ env.BRANCH }}-${{ github.sha }}
+          docker build -t $WEB_SERVER_IMAGE ./web_server
+          docker push $WEB_SERVER_IMAGE
+          echo "WEB_SERVER_IMAGE=$WEB_SERVER_IMAGE" >> $GITHUB_ENV
+      
+      - name: 'Build and push todo-backend image'
+        run: |
+          TODO_BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/todo-backend:${{ env.BRANCH }}-${{ github.sha }}
+          docker build -t $TODO_BACKEND_IMAGE ./todo-backend
+          docker push $TODO_BACKEND_IMAGE
+          echo "TODO_BACKEND_IMAGE=$TODO_BACKEND_IMAGE" >> $GITHUB_ENV
+      
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0
+      
+      - name: Deploy
+        run: |
+          cd kustomize/project
+          kustomize edit set image kube-web-server-dep=${{ env.WEB_SERVER_IMAGE }}
+          kustomize edit set image todo-backend-dep=${{ env.TODO_BACKEND_IMAGE }}
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment/kube-web-server-dep -n project
+          kubectl rollout status deployment/todo-backend-dep -n project
+          kubectl get services -n project -o wide

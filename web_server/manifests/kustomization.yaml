@@ -9,3 +9,8 @@ resources:
   - persistantvolumeclaim.yaml
   - ingress.yaml
   - gateway.yaml
+
+images:
+  - name: kube-web-server-dep
+    newName: kube-web-server-dep
+    newTag: latest
