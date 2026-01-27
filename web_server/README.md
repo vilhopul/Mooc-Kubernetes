@@ -11,4 +11,8 @@ run
 
 kubectl apply -k /home/user/mooc-Kubernetes/kustomize/project
 
+or 
+
+github actions
+
 Docker images are public
