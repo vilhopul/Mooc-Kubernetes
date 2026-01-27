@@ -8,6 +8,7 @@ resources:
   - service.yaml
   - database.yaml
   - cronjob.yaml
+  - backup-cronjob.yaml
 images:
   - name: todo-backend-dep
     newName: todo-backend-dep

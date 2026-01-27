@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup-cronjob
+  namespace: project
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: postgres-backup
+            image: google/cloud-sdk:alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              BACKUP_FILE="todo-db-backup-$(date +%Y%m%d-%H%M%S).sql"
+              
+              PGPASSWORD="$POSTGRES_PASSWORD" pg_dump \
+                -h "$PGHOST" \
+                -p "$PGPORT" \
+                -U "$POSTGRES_USER" \
+                -d "$POSTGRES_DB" \
+                > /tmp/$BACKUP_FILE
+              
+              gcloud auth activate-service-account --key-file=/var/secrets/google/key.json
+              
+              gsutil cp /tmp/$BACKUP_FILE gs://${GCS_BUCKET}/$BACKUP_FILE
+              
+              echo "Backup completed: $BACKUP_FILE"
+            env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: POSTGRES_DB
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: PGHOST
+            - name: PGPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-project
+                  key: PGPORT
+            - name: GCS_BUCKET
+              value: "dwk-todo-backups"
+            volumeMounts:
+            - name: gcs-credentials
+              mountPath: /var/secrets/google
+              readOnly: true
+          volumes:
+          - name: gcs-credentials
+            secret:
+              secretName: gcs-backup-credentials
+          restartPolicy: OnFailure
