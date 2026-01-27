@@ -39,3 +39,4 @@
 - [3.4.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.4/Log_output/manifests)
 - [3.5.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.5/kustomize/project)
 - [3.6.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.6/.github/workflows)
+- [3.7.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.7/.github/workflows)

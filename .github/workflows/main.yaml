@@ -61,10 +61,11 @@ jobs:
       - name: 'Determine namespace'
         run: |
           if [ "${{ env.BRANCH }}" = "main" ]; then
-            echo "NAMESPACE=project" >> $GITHUB_ENV
+            NAMESPACE="project"
           else
-            echo "NAMESPACE=${{ env.BRANCH }}" >> $GITHUB_ENV
+            NAMESPACE="${{ env.BRANCH }}"
           fi
+          echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
           echo "This is the namespace: $NAMESPACE"
       
       
