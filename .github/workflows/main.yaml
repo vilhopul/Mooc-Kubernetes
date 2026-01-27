@@ -15,6 +15,7 @@ jobs:
   build-publish-deploy:
     name: Build, Publish and Deploy
     runs-on: ubuntu-latest
+    environment: kube-mooc
 
     steps:
       - name: Checkout
@@ -31,7 +32,7 @@ jobs:
         run: gcloud info
 
       - name: Configure Docker
-        run: gcloud auth configure-docker ${{ env.REGISTRY }}
+        run: gcloud auth configure-docker "$REGISTRY"
       
       - name: 'Get GKE credentials'
         uses: 'google-github-actions/get-gke-credentials@v2'
