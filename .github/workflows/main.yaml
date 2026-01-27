@@ -57,13 +57,25 @@ jobs:
       
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
+
+      - name: 'Determine namespace'
+        run: |
+          if [ "${{ env.BRANCH }}" = "main" ]; then
+            echo "NAMESPACE=project" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=${{ env.BRANCH }}" >> $GITHUB_ENV
+          fi
+          echo "This is the namespace: $NAMESPACE"
+      
       
       - name: Deploy
         run: |
+          kubectl get namespace ${{ env.NAMESPACE }} || kubectl create namespace ${{ env.NAMESPACE }}
           cd kustomize/project
+          kustomize edit set namespace ${{ env.NAMESPACE }}
           kustomize edit set image WEB_SERVER_IMAGE=${{ env.WEB_SERVER_IMAGE }}
           kustomize edit set image TODO_BACKEND_IMAGE=${{ env.TODO_BACKEND_IMAGE }}
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/kube-web-server-dep -n project --timeout=300s
-          kubectl rollout status deployment/todo-backend-dep -n project --timeout=300s
-          kubectl get services -n project -o wide
+          kubectl rollout status deployment/kube-web-server-dep -n ${{ env.NAMESPACE }} --timeout=300s
+          kubectl rollout status deployment/todo-backend-dep -n ${{ env.NAMESPACE }} --timeout=300s
+          kubectl get services -n ${{ env.NAMESPACE }} -o wide
