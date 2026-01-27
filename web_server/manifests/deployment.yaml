@@ -24,7 +24,7 @@ spec:
           claimName: project-claim
       containers:
       - name: kube-web-server
-        image: vilhopul/mooc-kube-vm:2.6.webserver
+        image: WEB_SERVER_IMAGE
         imagePullPolicy: Always
         volumeMounts:
         - name: project-volume

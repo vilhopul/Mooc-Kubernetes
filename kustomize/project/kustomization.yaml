@@ -6,3 +6,11 @@ resources:
   - ../../PVs
   - ../../web_server/manifests
   - ../../todo-backend/manifests
+
+images:
+  - name: WEB_SERVER_IMAGE
+    newName: vilhopul/mooc-kube-vm
+    newTag: 2.6.webserver
+  - name: TODO_BACKEND_IMAGE
+    newName: vilhopul/mooc-kube-vm
+    newTag: 2.10.todobackend
