@@ -49,3 +49,4 @@
 ### Chapter 5
 - [4.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/4.1/Log_output/manifests)
 - [4.2.](https://github.com/vilhopul/Mooc-Kubernetes/tree/4.2/web_server/manifests)
+- [4.3.](https://github.com/vilhopul/Mooc-Kubernetes/tree/4.3/web_server/prometheus_query.png)
