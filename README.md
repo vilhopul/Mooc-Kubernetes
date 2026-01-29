@@ -45,4 +45,3 @@
 - [3.10.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.10/todo-backend/manifests)
 - [3.11.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.11/web_server/manifests)
 - [3.12.](https://github.com/vilhopul/Mooc-Kubernetes/tree/3.12/web_server/log_view.png)
-- [4.1.](https://github.com/vilhopul/Mooc-Kubernetes/tree/4.1/Log_output/manifests)
