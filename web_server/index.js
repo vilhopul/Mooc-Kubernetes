@@ -90,6 +90,20 @@ app.get('/image.jpg', (req, res) => {
   }
 })
 
+app.get('/healthz', async (req, res) => {
+  try {
+    const response = await axios.get(`http://todo-backend-svc:${BACKEND_PORT}/healthz`, { timeout: 2000 })
+    if (response.status === 200) {
+      res.status(200).send('OK')
+    } else {
+      res.status(503).send('Backend not ready')
+    }
+  } catch (err) {
+    console.error('Health check failed:', err.message)
+    res.status(503).send('Backend connection failed')
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`)
 })

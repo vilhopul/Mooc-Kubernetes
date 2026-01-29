@@ -41,3 +41,9 @@ spec:
           value: "8080"
         - name: backend_port
           value: "9876"
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5

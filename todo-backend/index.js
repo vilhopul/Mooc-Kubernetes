@@ -12,14 +12,16 @@ const pool = new Pool({
 })
 
 async function initDb() {
-  const client = await pool.connect()
   try {
-    await client.query('CREATE TABLE IF NOT EXISTS todos (id SERIAL PRIMARY KEY, todo VARCHAR(140))')
-    console.log('Database initialized')
+    const client = await pool.connect()
+    try {
+      await client.query('CREATE TABLE IF NOT EXISTS todos (id SERIAL PRIMARY KEY, todo VARCHAR(140))')
+      console.log('Database initialized')
+    } finally {
+      client.release()
+    }
   } catch (err) {
-    console.error('rrror initializing db', err)
-  } finally {
-    client.release()
+    console.error('Error initializing db, will retry on next request:', err.message)
   }
 }
 
@@ -58,6 +60,18 @@ app.post('/todos', async (req, res) => {
     res.status(500).send('db error')
   } finally {
     client.release()
+  }
+})
+
+app.get('/healthz', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    await client.query('SELECT 1')
+    client.release()
+    res.status(200).send('OK')
+  } catch (err) {
+    console.error('Health check failed:', err)
+    res.status(500).send('Database connection failed')
   }
 })
 

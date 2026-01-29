@@ -54,3 +54,9 @@ spec:
                 configMapKeyRef:
                   name: postgres-config-project
                   key: PGPORT
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 5

@@ -10,7 +10,7 @@ resources:
 images:
   - name: WEB_SERVER_IMAGE
     newName: vilhopul/mooc-kube-vm
-    newTag: 2.6.webserver
+    newTag: 4.2.webserver
   - name: TODO_BACKEND_IMAGE
     newName: vilhopul/mooc-kube-vm
-    newTag: 2.10.todobackend
+    newTag: 4.2.1.todobackend
