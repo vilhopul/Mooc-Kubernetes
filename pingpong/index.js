@@ -56,6 +56,18 @@ app.get('/pings', async (req, res) => {
   }
 })
 
+app.get('/healthz', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    await client.query('SELECT 1')
+    client.release()
+    res.status(200).send('OK')
+  } catch (err) {
+    console.error('Health check failed:', err)
+    res.status(500).send('Database connection failed')
+  }
+})
+
 app.listen(port, () => {
   console.log(`Pingpong app listening on port ${port}`)
 })

@@ -31,6 +31,21 @@ class RequestHandler(BaseHTTPRequestHandler):
                 pingpong_message = "0"
 
             self.wfile.write(f"file content: {file_content}\nenv variable: MESSAGE={env_message}\n{log_message}\nPing / pingpong: {pingpong_message}".encode('utf-8'))
+        elif self.path == '/healthz':
+            try:
+                response = requests.get('http://pingpong-svc:3456/pings', timeout=2)
+                if response.status_code == 200:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/plain')
+                    self.end_headers()
+                    self.wfile.write(b'OK')
+                else:
+                    self.send_response(503)
+                    self.end_headers()
+            except Exception as e:
+                print(f"Health check failed: {e}")
+                self.send_response(503)
+                self.end_headers()
         else:
             self.send_response(404)
             self.end_headers()

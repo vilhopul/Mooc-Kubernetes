@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: pingpong
-        image: vilhopul/mooc-kube-vm:3.4.pingpong
+        image: vilhopul/mooc-kube-vm:4.1.pingpong
         imagePullPolicy: Always
         env:
         - name: PORT
@@ -45,3 +45,9 @@ spec:
             configMapKeyRef:
               name: postgres-config
               key: PGPORT
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8070
+          initialDelaySeconds: 5
+          periodSeconds: 5
